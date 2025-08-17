@@ -1,4 +1,4 @@
-name: Flutter CI
+name: Flutter CI & Release
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.35.1' # استبدل هذا برقم النسخة المرغوبة
+          flutter-version: '3.35.1'
 
       # خطوة 3: تحميل جميع الحزم dependencies
       - name: Install dependencies
@@ -36,9 +36,14 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
-      # خطوة 7: رفع ملف الـ APK كـ artifact للتحميل
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      # خطوة 7: إنشاء Release جديد ورفع APK تلقائيًا
+      - name: Create GitHub Release
+        id: create_release
+        uses: ncipollo/release-action@v1
         with:
-          name: app-release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          tag: v1.0.0                  # يمكنك تعديل رقم الإصدار أو جعله ديناميكي
+          name: MyApp v1.0.0           # عنوان الإصدار
+          body: "أول نسخة من التطبيق مع الميزات الأساسية" # ملاحظات الإصدار
+          draft: false                 # false لنشر الإصدار مباشرة
+          prerelease: false            # true إذا كان تجريبي
+          files: build/app/outputs/flutter-apk/app-release.apk
