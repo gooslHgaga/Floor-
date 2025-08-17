@@ -11,21 +11,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # خطوة 1: سحب الملفات من المستودع
       - uses: actions/checkout@v4
 
+      # خطوة 2: تثبيت Flutter (نسخة محددة لتجنب مشاكل قناة stable)
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
+          flutter-version: '3.13.4' # استبدل هذا برقم النسخة المرغوبة
 
+      # خطوة 3: تحميل جميع الحزم dependencies
       - name: Install dependencies
         run: flutter pub get
 
+      # خطوة 4: تحليل المشروع للكشف عن أي أخطاء
       - name: Analyze project
         run: flutter analyze
 
+      # خطوة 5: تشغيل اختبارات المشروع
       - name: Run tests
         run: flutter test
 
+      # خطوة 6: بناء ملف APK الإصدار النهائي
       - name: Build APK
         run: flutter build apk --release
