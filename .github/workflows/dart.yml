@@ -41,9 +41,10 @@ jobs:
         id: create_release
         uses: ncipollo/release-action@v1
         with:
-          tag: v1.0.0                  # يمكنك تعديل رقم الإصدار أو جعله ديناميكي
-          name: MyApp v1.0.0           # عنوان الإصدار
-          body: "أول نسخة من التطبيق مع الميزات الأساسية" # ملاحظات الإصدار
-          draft: false                 # false لنشر الإصدار مباشرة
-          prerelease: false            # true إذا كان تجريبي
-          files: build/app/outputs/flutter-apk/app-release.apk
+          tag: v1.0.0                     # رقم الإصدار
+          name: MyApp v1.0.0              # عنوان الإصدار
+          body: "أول نسخة من التطبيق مع الميزات الأساسية"  # ملاحظات الإصدار
+          draft: false                     # false لنشر الإصدار مباشرة
+          prerelease: false                # true إذا كان تجريبي
+          artifacts: build/app/outputs/flutter-apk/app-release.apk
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}  # استخدم اسم السر الذي أنشأته في GitHub
