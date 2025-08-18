@@ -41,8 +41,8 @@ jobs:
         id: create_release
         uses: ncipollo/release-action@v1
         with:
-          tag: v2.0.0                   # رقم الإصدار
-          name: MyApp v2.0.0              # عنوان الإصدار
+          tag: v3.0.0                   # رقم الإصدار
+          name: MyApp v3.0.0              # عنوان الإصدار
           body: "أول نسخة من التطبيق مع الميزات الأساسية"  # ملاحظات الإصدار
           draft: false                     # false لنشر الإصدار مباشرة
           prerelease: false                # true إذا كان تجريبي
