@@ -1,69 +1,48 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter/material.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'prayer_times_service.dart';
 
 class NotificationService {
-  static final FlutterLocalNotificationsPlugin _notifications =
+  static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
   static Future<void> init() async {
-    const AndroidInitializationSettings androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const iosSettings = DarwinInitializationSettings();
+    const initSettings = InitializationSettings(android: androidSettings, iOS: iosSettings);
 
-    const InitializationSettings settings =
-        InitializationSettings(android: androidSettings);
-
-    await _notifications.initialize(settings);
+    await flutterLocalNotificationsPlugin.initialize(initSettings);
   }
 
-  static Future<void> showPrayerNotification({
-    required int id,
-    required String title,
-    required String body,
-    String? soundPath,
-  }) async {
-    final androidDetails = AndroidNotificationDetails(
-      'azan_channel',
-      'أذان',
-      channelDescription: 'قناة إشعارات أوقات الصلاة',
-      importance: Importance.max,
-      priority: Priority.high,
-      sound: soundPath != null ? RawResourceAndroidNotificationSound(soundPath) : null,
-      playSound: true,
-    );
+  static Future<void> schedulePrayerNotifications(PrayerTimesService service) async {
+    final now = tz.TZDateTime.now(tz.local);
 
-    final notificationDetails = NotificationDetails(android: androidDetails);
-    await _notifications.show(id, title, body, notificationDetails);
-  }
+    // مثال: جدولة الفجر
+    if (service.fajrTime != null) {
+      final parts = service.fajrTime!.split(':');
+      final fajr = tz.TZDateTime(
+          tz.local, now.year, now.month, now.day, int.parse(parts[0]), int.parse(parts[1]));
 
-  static Future<void> schedulePrayerNotification({
-    required int id,
-    required String title,
-    required String body,
-    required DateTime scheduledTime,
-    String? soundPath,
-  }) async {
-    final androidDetails = AndroidNotificationDetails(
-      'azan_channel',
-      'أذان',
-      channelDescription: 'قناة إشعارات أوقات الصلاة',
-      importance: Importance.max,
-      priority: Priority.high,
-      sound: soundPath != null ? RawResourceAndroidNotificationSound(soundPath) : null,
-      playSound: true,
-    );
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        'الفجر',
+        'حان الآن موعد الصلاة',
+        fajr,
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'prayer_channel',
+            'أذان',
+            channelDescription: 'تنبيهات الصلاة',
+            importance: Importance.max,
+            priority: Priority.high,
+          ),
+        ),
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time,
+      );
+    }
 
-    final notificationDetails = NotificationDetails(android: androidDetails);
-
-    await _notifications.zonedSchedule(
-      id,
-      title,
-      body,
-      scheduledTime.toLocal().toUtc(),
-      notificationDetails,
-      androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.time,
-    );
+    // يمكنك إضافة باقي الصلوات بنفس الطريقة
   }
 }
