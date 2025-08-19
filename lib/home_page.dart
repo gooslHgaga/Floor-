@@ -4,6 +4,8 @@ import 'prayer_times_service.dart';
 import 'azkar_page.dart';
 import 'countdown_ring.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:hijri/hijri_calendar.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -12,22 +14,56 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
     final times = state.prayerTimes;
+
+    // التاريخ الميلادي
+    final now = DateTime.now();
+    final gregorianDate = DateFormat('dd MMMM yyyy', 'ar').format(now);
+
+    // التاريخ الهجري
+    final hijri = HijriCalendar.now();
+    final hijriDate =
+        "${hijri.hDay} ${hijri.longMonthName} ${hijri.hYear} هـ";
+
     return Scaffold(
-      appBar: AppBar(title: const Text('أوقات الأذن')),
+      appBar: AppBar(title: const Text('أوقات الأذان')),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
-            Text(
-              state.quranVerses[state.verseIndex],
-              style: const TextStyle(fontSize: 18, color: Colors.indigo),
+            // عرض التاريخ الميلادي والهجري
+            Column(
+              children: [
+                Text(
+                  "التاريخ الميلادي: $gregorianDate",
+                  style: const TextStyle(fontSize: 16, color: Colors.black87),
+                ),
+                Text(
+                  "التاريخ الهجري: $hijriDate",
+                  style: const TextStyle(fontSize: 16, color: Colors.black87),
+                ),
+              ],
             ),
             const SizedBox(height: 12),
+
+            // عرض آية قرآنية
+            Text(
+              state.quranVerses[state.verseIndex],
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.indigo,
+                  fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 12),
+
+            // قائمة أوقات الأذان
             Expanded(
               child: ListView(
                 children: _buildPrayerCardsVector(context, state),
               ),
             ),
+
+            // سويتش التنبيه
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -38,6 +74,8 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
+
+            // زر اختيار النغمة
             ElevatedButton(
               onPressed: () async {
                 final result = await FilePicker.platform.pickFiles(
@@ -85,7 +123,7 @@ class HomePage extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight)
                     : LinearGradient(
-                        colors: [Colors.indigo.shade50, Colors.indigo.shade100],
+                        colors: [Color(0xFFE8EAF6), Color(0xFFC5CAE9)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight),
                 boxShadow: [
@@ -104,9 +142,11 @@ class HomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                   onTap: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => AzkarPage(prayerName: name)));
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => AzkarPage(prayerName: name),
+                      ),
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -134,11 +174,12 @@ class HomePage extends StatelessWidget {
                                         fontSize: 16)),
                                 if (dt != null)
                                   Text(
-                                      '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}',
-                                      style: TextStyle(
-                                          color: isNext
-                                              ? Colors.white70
-                                              : Colors.indigo.shade700)),
+                                    '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}',
+                                    style: TextStyle(
+                                        color: isNext
+                                            ? Colors.white70
+                                            : Colors.indigo.shade700),
+                                  ),
                               ],
                             ),
                           ],
