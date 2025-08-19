@@ -1,24 +1,40 @@
-name: prayer_times_app
-description: "تطبيق أوقات الأذان مع إشعارات وأذكار"
+name: adhan_app
+description: "تطبيق أوقات الأذان"
 publish_to: 'none' # لا يتم النشر على pub.dev
 
+# الإصدار
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.1.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  # الحزم الرئيسية
+  # ✅ إدارة الحالة
   provider: ^6.1.5
+
+  # ✅ مكتبة حساب مواقيت الصلاة
   adhan_dart: ^1.1.2
+
+  # ✅ تنسيقات الوقت والتاريخ
   intl: ^0.20.2
+
+  # ✅ التقويم الهجري
   jhijri: ^1.0.0
+
+  # ✅ إشعارات محلية
   flutter_local_notifications: ^19.4.0
+
+  # ✅ اختيار ملفات الصوت (لتحديد نغمة الأذان)
   file_picker: ^10.3.1
+
+  # ✅ تشغيل الصوتيات
   audioplayers: ^6.5.0
+
+  # ✅ عرض أيقونات ورسوميات SVG
+  flutter_svg: ^2.1.6
 
 dev_dependencies:
   flutter_test:
@@ -27,3 +43,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  # ✅ لو عندك صور أو أيقونات محلية
+  assets:
+    - assets/icons/
+    - assets/images/
+    - assets/audio/
