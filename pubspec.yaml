@@ -1,8 +1,8 @@
-name: myapp
-description: "A new Flutter project."
-publish_to: 'none' # لا تنشر على pub.dev
+name: prayer_times_app
+description: "تطبيق أوقات الأذان مع إشعارات وأذكار"
+publish_to: 'none' # لا يتم النشر على pub.dev
 
-version: 1.0.0+2
+version: 1.0.0+1
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -10,13 +10,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.8
-  intl: ^0.20.2   # لتنسيق الوقت والتاريخ
+  provider: ^6.0.5
+  adhan_dart: ^1.1.2
+  intl: ^0.18.1
+  hijri_converter: ^2.0.3
+  flutter_local_notifications: ^13.0.0
+  file_picker: ^5.2.5
+  audioplayers: ^3.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true
