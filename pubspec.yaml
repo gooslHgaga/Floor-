@@ -1,8 +1,6 @@
 name: adan
 description: تطبيق أوقات الأذن مع حسابات دقيقة وتصميم عصري
 publish_to: "none"
-
-# الإصدار
 version: 1.0.0+1
 
 environment:
@@ -12,35 +10,18 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # ✅ إدارة الحالة
   provider: ^6.1.5
-
-  # ✅ مكتبة حساب مواقيت الصلاة
   adhan_dart: ^1.1.2
-
-  # ✅ تنسيقات الوقت والتاريخ
   intl: ^0.20.2
-
-  # ✅ التقويم الهجري
   jhijri: ^1.0.0
-
-  # ✅ إشعارات محلية
   flutter_local_notifications: ^19.4.0
-
-  # ✅ اختيار ملفات الصوت (لتحديد نغمة الأذان)
   file_picker: ^10.3.1
-
-  # ✅ تشغيل الصوتيات
   audioplayers: ^6.5.0
-
-  # ✅ ساعة أنالوج
   analog_clock: ^1.1.0
-
-  # ✅ الموقع
+  google_fonts: ^6.2.1
   geolocator: ^13.0.1
-
-  # ✅ التخزين المحلي
   shared_preferences: ^2.3.2
+  flutter_native_timezone: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -49,4 +30,4 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  # لا توجد assets – نستخدم الأيقونات الافتراضية
+  
