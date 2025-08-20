@@ -22,8 +22,4 @@ class SettingsProvider with ChangeNotifier {
     await prefs.setBool('notif', _notificationsEnabled);
     notifyListeners();
   }
-
-  Future<void> pickTone() async {
-    // سيتم اختيار نغمة خارجية عبر AudioService.pickExternal()
-  }
 }
