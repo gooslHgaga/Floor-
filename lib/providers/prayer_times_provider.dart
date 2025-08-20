@@ -1,6 +1,6 @@
-import 'package:adan/core/services/adhan_calculation.dart';
-import 'package:adhan_dart/adhan_dart.dart';
 import 'package:flutter/material.dart';
+import 'package:adhan_dart/adhan_dart.dart';
+import 'package:adan/core/services/adhan_calculation.dart';
 
 class PrayerTimesProvider with ChangeNotifier {
   PrayerTimes? _prayerTimes;
