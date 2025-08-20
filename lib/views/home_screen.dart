@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:adan/providers/prayer_times_provider.dart';
 import 'package:adan/providers/settings_provider.dart';
-import 'package:analog_clock/analog_clock.dart';
+import 'package:flutter_analog_clock/flutter_analog_clock.dart';
+import 'package:adan/core/services/audio_service.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -26,14 +27,18 @@ class HomeScreen extends StatelessWidget {
               const Text('أوقات الأذن',
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
               const SizedBox(height: 12),
-              const AnalogClock(
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                ),
+              const SizedBox(
                 width: 120,
                 height: 120,
-                showNumbers: false,
-                showDigitalClock: false,
+                child: AnalogClock(
+                  isKeepTime: true,
+                  dialColor: Colors.transparent,
+                  markingColor: Colors.white54,
+                  hourNumberColor: Colors.white,
+                  secondHandColor: Colors.red,
+                  hourHandColor: Colors.white,
+                  minuteHandColor: Colors.white,
+                ),
               ),
               const SizedBox(height: 8),
               const DateRow(),
