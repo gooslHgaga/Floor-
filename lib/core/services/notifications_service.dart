@@ -1,34 +1,39 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
-final FlutterLocalNotificationsPlugin _notifications =
+final FlutterLocalNotificationsPlugin _plugin =
     FlutterLocalNotificationsPlugin();
 
 class NotificationService {
   static Future<void> init() async {
-    const AndroidInitializationSettings initAndroid =
+    tz.initializeTimeZones();
+    final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timeZoneName));
+
+    const AndroidInitializationSettings settingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
-    await _notifications.initialize(
-      const InitializationSettings(android: initAndroid),
+    await _plugin.initialize(
+      const InitializationSettings(android: settingsAndroid),
     );
   }
 
-  static Future<void> schedulePrayer(
-      int id, String title, DateTime scheduled) async {
-    final tzScheduled = scheduled.subtract(const Duration(minutes: 1));
-    await _notifications.zonedSchedule(
+  static Future<void> schedulePrayer(int id, String title, DateTime time) async {
+    await _plugin.zonedSchedule(
       id,
       title,
       'حان الآن وقت الصلاة',
-      tz.TZDateTime.from(tzScheduled, tz.local),
+      tz.TZDateTime.from(time, tz.local),
       const NotificationDetails(
         android: AndroidNotificationDetails(
-          'adan_ch',
+          'prayer_channel',
           'أذان',
           channelDescription: 'تنبيهات الصلاة',
           importance: Importance.max,
           priority: Priority.high,
-          sound: RawResourceAndroidNotificationSound('adan'),
-          playSound: true,
+          playSound: false,
         ),
       ),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
