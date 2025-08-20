@@ -1,14 +1,20 @@
-import 'package:adhan_dart/adhan_dart.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:adhan_dart/adhan_dart.dart';
 
 class AdhanService {
   static Future<PrayerTimes> calculate(CalculationMethod method) async {
-    Position pos = await Geolocator.getCurrentPosition(
+    final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.low);
 
     final params = method.getParameters();
-    final coordinates = Coordinates(pos.latitude, pos.longitude);
+    final coordinates = Coordinates(position.latitude, position.longitude);
     final date = DateComponents.from(DateTime.now());
-    return PrayerTimes(coordinates, date, params, utcOffset: 3);
+
+    return PrayerTimes(
+      coordinates,
+      date,
+      params,
+      utcOffset: DateTime.now().timeZoneOffset.inHours.toDouble(),
+    );
   }
 }
