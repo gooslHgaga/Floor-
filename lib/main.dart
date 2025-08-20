@@ -1,9 +1,9 @@
-import 'package:adan/providers/prayer_times_provider.dart';
-import 'package:adan/providers/settings_provider.dart';
-import 'package:adan/views/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:adan/providers/settings_provider.dart';
+import 'package:adan/providers/prayer_times_provider.dart';
+import 'package:adan/views/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +33,6 @@ class AdanApp extends StatelessWidget {
           primary: const Color(0xff1e3a8a),
           secondary: const Color(0xff34d399),
         ),
-        scaffoldBackgroundColor: const Color(0xff111827),
       ),
       home: const HomeScreen(),
     );
