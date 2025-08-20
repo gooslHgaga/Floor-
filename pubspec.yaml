@@ -1,6 +1,6 @@
-name: adhan_app
-description: "تطبيق أوقات الأذان"
-publish_to: 'none' # لا يتم النشر على pub.dev
+name: adan
+description: تطبيق أوقات الأذن مع حسابات دقيقة وتصميم عصري
+publish_to: "none"
 
 # الإصدار
 version: 1.0.0+1
@@ -33,19 +33,20 @@ dependencies:
   # ✅ تشغيل الصوتيات
   audioplayers: ^6.5.0
 
-  # ✅ عرض أيقونات ورسوميات SVG
-  flutter_svg: ^2.1.6
+  # ✅ ساعة أنالوج
+  analog_clock: ^1.1.0
+
+  # ✅ الموقع
+  geolocator: ^13.0.1
+
+  # ✅ التخزين المحلي
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^5.0.0
 
 flutter:
   uses-material-design: true
-
-  # ✅ لو عندك صور أو أيقونات محلية
-  assets:
-    - assets/icons/
-    - assets/images/
-    - assets/audio/
+  # لا توجد assets – نستخدم الأيقونات الافتراضية
