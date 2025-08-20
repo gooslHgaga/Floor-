@@ -23,7 +23,7 @@ class DhikrScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('أذكار ${prayer.arabicName}')),
+      appBar: AppBar(title: Text('أذكار ${prayer.name}')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Center(
