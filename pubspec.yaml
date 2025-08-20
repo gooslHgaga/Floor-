@@ -1,5 +1,5 @@
 name: adan
-description: تطبيق أوقات الأذن مع حسابات دقيقة وتصميم عصري
+description: تطبيق أوقات الأذن
 publish_to: "none"
 version: 1.0.0+1
 
@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   provider: ^6.1.5
   adhan_dart: ^1.1.2
   intl: ^0.20.2
@@ -22,6 +21,7 @@ dependencies:
   geolocator: ^13.0.1
   shared_preferences: ^2.3.2
   flutter_native_timezone: ^2.0.0
+  timezone: ^0.9.4   # لحلّ أخطاء tz
 
 dev_dependencies:
   flutter_test:
@@ -30,4 +30,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  
