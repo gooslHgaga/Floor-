@@ -1,13 +1,27 @@
 import 'package:adan/views/dhikr_screen.dart';
 import 'package:adhan_dart/adhan_dart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:adan/providers/prayer_times_provider.dart';
 
 class PrayerCard extends StatelessWidget {
   final PrayerName prayer;
   const PrayerCard(this.prayer, {super.key});
+
+  IconData _iconData() {
+    switch (prayer) {
+      case PrayerName.fajr:
+        return Icons.wb_twilight;
+      case PrayerName.dhuhr:
+        return Icons.wb_sunny;
+      case PrayerName.asr:
+        return Icons.cloud;
+      case PrayerName.maghrib:
+        return Icons.nights_stay_outlined;
+      case PrayerName.isha:
+        return Icons.nightlight_round;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +44,23 @@ class PrayerCard extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SvgPicture.asset(
-                'assets/vectors/${prayer.name}.svg',
-                width: 36,
-                height: 36,
+              Icon(
+                _iconData(),
+                size: 36,
+                color: Theme.of(context).primaryColor,
               ),
               const SizedBox(height: 6),
-              Text(prayer.arabicName,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-              Text(time, style: const TextStyle(fontSize: 14, color: Colors.grey)),
+              Text(
+                prayer.arabicName,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Text(
+                time,
+                style: const TextStyle(fontSize: 14, color: Colors.grey),
+              ),
             ],
           ),
         ),
