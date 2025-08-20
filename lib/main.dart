@@ -1,33 +1,41 @@
+import 'package:adan/providers/prayer_times_provider.dart';
+import 'package:adan/providers/settings_provider.dart';
+import 'package:adan/views/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'app_state.dart';
-import 'screens/home_page.dart';
-import 'services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await NotificationService.init();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => AppState()..init(),
-      child: const MyApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SettingsProvider()),
+        ChangeNotifierProvider(create: (_) => PrayerTimesProvider()),
+      ],
+      child: const AdanApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class AdanApp extends StatelessWidget {
+  const AdanApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'أوقات الأذن',
       debugShowCheckedModeBanner: false,
-      title: 'أوقات الأذان',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
+      theme: ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.dark(
+          primary: const Color(0xff1e3a8a),
+          secondary: const Color(0xff34d399),
+        ),
+        scaffoldBackgroundColor: const Color(0xff111827),
       ),
-      home: const HomePage(),
+      home: const HomeScreen(),
     );
   }
 }
