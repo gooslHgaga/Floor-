@@ -9,8 +9,10 @@ class NextPrayerBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     final times = context.watch<PrayerTimesProvider>().prayerTimes;
     if (times == null) return const SizedBox.shrink();
+
     final next = times.nextPrayer();
     final remaining = times.timeForPrayer(next);
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
       decoration: BoxDecoration(
@@ -18,7 +20,7 @@ class NextPrayerBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
-        'الصلاة القادمة: ${next.arabicName} بعد ${remaining.inMinutes} دقيقة',
+        'الصلاة القادمة: ${next.name} بعد ${remaining?.inMinutes ?? 0} دقيقة',
         style: const TextStyle(fontSize: 16, color: Colors.white),
       ),
     );
