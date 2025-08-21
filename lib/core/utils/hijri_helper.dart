@@ -1,4 +1,3 @@
-// lib/core/utils/hijri_helper.dart
 import 'package:hijri/hijri.dart';
 
 String getTodayHijri() {
