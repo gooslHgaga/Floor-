@@ -4,7 +4,7 @@ import 'package:adan/core/services/adhan_calculation.dart';
 
 class PrayerTimesProvider with ChangeNotifier {
   PrayerTimes? _prayerTimes;
-  CalculationMethod _method = CalculationMethod.ummAlQura; // ✅
+  CalculationMethod _method = CalculationMethod.ummAlQura; // صحيح
 
   PrayerTimes? get prayerTimes => _prayerTimes;
 
