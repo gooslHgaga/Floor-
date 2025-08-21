@@ -1,34 +1,83 @@
+import 'package:adan/widgets/ayah_rotator.dart';
+import 'package:adan/widgets/date_row.dart';
+import 'package:adan/widgets/next_prayer_banner.dart';
+import 'package:adan/widgets/prayer_card.dart';
+import 'package:adan/widgets/settings_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:adan/providers/prayer_times_provider.dart';
+import 'package:adan/providers/settings_provider.dart';
+import 'package:flutter_analog_clock/flutter_analog_clock.dart';
+import 'package:adan/core/services/audio_service.dart';
 import 'package:adhan_dart/adhan_dart.dart';
 
-class DhikrScreen extends StatelessWidget {
-  final Prayer prayer;
-  const DhikrScreen(this.prayer, {super.key});
-
-  String getDhikr() {
-    switch (prayer) {
-      case Prayer.fajr:
-        return 'أذكار الصباح...';
-      case Prayer.dhuhr:
-        return 'أذكار بعد الظهر...';
-      case Prayer.asr:
-        return 'أذكار بعد العصر...';
-      case Prayer.maghrib:
-        return 'أذكار بعد المغرب...';
-      case Prayer.isha:
-        return 'أذكار بعد العشاء...';
-      default:
-        return '';
-    }
-  }
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final settings = context.watch<SettingsProvider>();
+
     return Scaffold(
-      appBar: AppBar(title: Text('أذكار ${prayer.name()}')), // تعديل: name()
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Text(getDhikr(), style: const TextStyle(fontSize: 18)),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              const Text(
+                'أوقات الأذان',
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 12),
+              const SizedBox(
+                width: 120,
+                height: 120,
+                child: AnalogClock(
+                  isKeepTime: true,
+                  dialColor: Colors.transparent,
+                  markingColor: Colors.white54,
+                  hourNumberColor: Colors.white,
+                  secondHandColor: Colors.red,
+                  hourHandColor: Colors.white,
+                  minuteHandColor: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const DateRow(),
+              const AyahRotator(),
+              const SizedBox(height: 12),
+              const NextPrayerBanner(),
+              const SizedBox(height: 12),
+              Expanded(
+                child: GridView.count(
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.5,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  children: Prayer.values.map((p) => PrayerCard(p)).toList(),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Switch(
+                    value: settings.notificationsEnabled,
+                    onChanged: (_) => settings.toggleNotifications(),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.music_note),
+                    onPressed: () => AudioService.pickExternal(),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.settings),
+                    onPressed: () => showSettingsSheet(context),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
