@@ -1,3 +1,4 @@
+```dart
 import 'package:adan/widgets/ayah_rotator.dart';
 import 'package:adan/widgets/date_row.dart';
 import 'package:adan/widgets/next_prayer_banner.dart';
@@ -9,6 +10,7 @@ import 'package:adan/providers/prayer_times_provider.dart';
 import 'package:adan/providers/settings_provider.dart';
 import 'package:flutter_analog_clock/flutter_analog_clock.dart';
 import 'package:adan/core/services/audio_service.dart';
+import 'package:adhan_dart/adhan_dart.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -55,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                   childAspectRatio: 1.5,
                   mainAxisSpacing: 12,
                   crossAxisSpacing: 12,
-                  children: PrayerName.values.map((p) => PrayerCard(p)).toList(),
+                  children: Prayer.values.map((p) => PrayerCard(p)).toList(),
                 ),
               ),
               Row(
@@ -82,3 +84,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+```
