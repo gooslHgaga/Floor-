@@ -17,22 +17,18 @@ class DhikrScreen extends StatelessWidget {
         return 'أذكار بعد المغرب...';
       case Prayer.isha:
         return 'أذكار بعد العشاء...';
+      default:
+        return '';
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('أذكار ${prayer.name}')),
+      appBar: AppBar(title: Text('أذكار ${prayer.name()}')), // تعديل: name()
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Center(
-          child: Text(
-            getDhikr(),
-            style: const TextStyle(fontSize: 24),
-            textAlign: TextAlign.center,
-          ),
-        ),
+        child: Text(getDhikr(), style: const TextStyle(fontSize: 18)),
       ),
     );
   }
