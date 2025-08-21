@@ -21,7 +21,7 @@ dependencies:
   geolocator: ^13.0.1
   shared_preferences: ^2.3.2
   flutter_native_timezone: ^2.0.0
-  timezone: ^0.9.4   # لحلّ أخطاء tz
+  timezone: ^0.10.1   # لحلّ أخطاء tz
 
 dev_dependencies:
   flutter_test:
