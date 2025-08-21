@@ -1,3 +1,4 @@
+// استخدم jhijri المُحدَّث
 import 'package:jhijri/jhijri.dart';
 
 String getTodayHijri() {
