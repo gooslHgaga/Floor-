@@ -7,7 +7,7 @@ class AdhanService {
       locationSettings: const LocationSettings(accuracy: LocationAccuracy.low),
     );
 
-    final params = method.calculationParameters;
+    final params = method.getParameters(); // تعديل: بدل calculationParameters
     final coords = Coordinates(pos.latitude, pos.longitude);
     final date = DateTime.now();
 
