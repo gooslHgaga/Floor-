@@ -20,7 +20,7 @@ class NextPrayerBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
-        'الصلاة القادمة: ${next.name} بعد ${remaining?.inMinutes ?? 0} دقيقة',
+        'الصلاة القادمة: ${next.name()} بعد ${remaining?.inMinutes ?? 0} دقيقة',
         style: const TextStyle(fontSize: 16, color: Colors.white),
       ),
     );
