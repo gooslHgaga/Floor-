@@ -10,7 +10,7 @@ void showSettingsSheet(BuildContext context) {
       return ListView(
         shrinkWrap: true,
         children: CalculationMethod.values.map((m) => ListTile(
-              title: Text(m.name),
+              title: Text(m.name()),
               onTap: () {
                 context.read<PrayerTimesProvider>().changeMethod(m);
                 Navigator.pop(context);
