@@ -5,20 +5,20 @@ import 'package:adan/providers/prayer_times_provider.dart';
 import 'package:adan/views/dhikr_screen.dart';
 
 class PrayerCard extends StatelessWidget {
-  final PrayerName prayer;
+  final Prayer prayer;   // PrayerName → Prayer
   const PrayerCard(this.prayer, {super.key});
 
   IconData _iconData() {
     switch (prayer) {
-      case PrayerName.fajr:
+      case Prayer.fajr:
         return Icons.wb_twilight;
-      case PrayerName.dhuhr:
+      case Prayer.dhuhr:
         return Icons.wb_sunny;
-      case PrayerName.asr:
+      case Prayer.asr:
         return Icons.cloud;
-      case PrayerName.maghrib:
+      case Prayer.maghrib:
         return Icons.nights_stay_outlined;
-      case PrayerName.isha:
+      case Prayer.isha:
         return Icons.nightlight_round;
     }
   }
