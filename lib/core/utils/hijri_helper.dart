@@ -1,7 +1,6 @@
-// استخدم jhijri المُحدَّث
-import 'package:jhijri/jhijri.dart';
+import 'package:hijri/hijri.dart';
 
 String getTodayHijri() {
-  final h = JHijri.now();
-  return '${h.day} ${h.longMonthName} ${h.year} هـ';
+  final h = HijriCalendar.now();
+  return '${h.hDay} ${h.longMonthName} ${h.hYear} هـ';
 }
