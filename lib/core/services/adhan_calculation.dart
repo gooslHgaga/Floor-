@@ -9,7 +9,7 @@ class AdhanService {
 
     final params = method.calculationParameters;
     final coords = Coordinates(pos.latitude, pos.longitude);
-    final date   = DateTime.now();
+    final date = DateTime.now();
 
     return PrayerTimes(
       coordinates: coords,
