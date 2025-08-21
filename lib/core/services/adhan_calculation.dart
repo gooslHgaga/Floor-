@@ -9,7 +9,7 @@ class AdhanService {
       ),
     );
 
-    final params = method.parameters;
+    final params = method.calculationParameters;   // parameters → calculationParameters
     final coordinates = Coordinates(position.latitude, position.longitude);
     final date = DateTime.now();
 
@@ -17,7 +17,7 @@ class AdhanService {
       coordinates: coordinates,
       date: date,
       calculationParameters: params,
-      utcOffset: date.timeZoneOffset.inHours.toDouble(),
+      // لا يوجد: utcOffset – يتم التعامل معه تلقائياً
     );
   }
 }
