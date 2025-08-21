@@ -5,23 +5,16 @@ import 'package:adan/providers/prayer_times_provider.dart';
 import 'package:adan/views/dhikr_screen.dart';
 
 class PrayerCard extends StatelessWidget {
-  final Prayer prayer;   // PrayerName → Prayer
+  final Prayer prayer;
   const PrayerCard(this.prayer, {super.key});
 
-  IconData _iconData() {
-    switch (prayer) {
-      case Prayer.fajr:
-        return Icons.wb_twilight;
-      case Prayer.dhuhr:
-        return Icons.wb_sunny;
-      case Prayer.asr:
-        return Icons.cloud;
-      case Prayer.maghrib:
-        return Icons.nights_stay_outlined;
-      case Prayer.isha:
-        return Icons.nightlight_round;
-    }
-  }
+  IconData _iconData() => switch (prayer) {
+        Prayer.fajr  => Icons.wb_twilight,
+        Prayer.dhuhr => Icons.wb_sunny,
+        Prayer.asr   => Icons.cloud,
+        Prayer.maghrib => Icons.nights_stay_outlined,
+        Prayer.isha  => Icons.nightlight_round,
+      };
 
   @override
   Widget build(BuildContext context) {
