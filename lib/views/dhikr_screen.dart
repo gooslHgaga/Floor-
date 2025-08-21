@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:adhan_dart/adhan_dart.dart';
 
 class DhikrScreen extends StatelessWidget {
-  final PrayerName prayer;
+  final Prayer prayer;   // PrayerName → Prayer
   const DhikrScreen(this.prayer, {super.key});
 
   String getDhikr() {
     switch (prayer) {
-      case PrayerName.fajr:
+      case Prayer.fajr:
         return 'أذكار الصباح...';
-      case PrayerName.dhuhr:
+      case Prayer.dhuhr:
         return 'أذكار بعد الظهر...';
-      case PrayerName.asr:
+      case Prayer.asr:
         return 'أذكار بعد العصر...';
-      case PrayerName.maghrib:
+      case Prayer.maghrib:
         return 'أذكار بعد المغرب...';
-      case PrayerName.isha:
+      case Prayer.isha:
         return 'أذكار بعد العشاء...';
     }
   }
