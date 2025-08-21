@@ -20,6 +20,8 @@ class PrayerCard extends StatelessWidget {
         return Icons.nights_stay_outlined;
       case Prayer.isha:
         return Icons.nightlight_round;
+      default:
+        return Icons.access_time;
     }
   }
 
@@ -48,7 +50,7 @@ class PrayerCard extends StatelessWidget {
               Icon(_iconData(),
                   size: 36, color: Theme.of(context).primaryColor),
               const SizedBox(height: 6),
-              Text(prayer.name,
+              Text(prayer.name(),
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.w600)),
               Text(time,
