@@ -46,26 +46,30 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _loadImages() async {
     final list = StorageService.loadAllImages();
+    if (!mounted) return;
     setState(() => images = list);
   }
 
   Future<void> _takePicture() async {
-    // Request permissions
     final pStatus = await Permission.camera.request();
     if (!pStatus.isGranted) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('كاميرا مطلوبة')));
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('كاميرا مطلوبة')),
+      );
       return;
     }
 
-    final picked = await picker.pickImage(source: ImageSource.camera, // keep full resolution by not setting imageQuality
-        preferredCameraDevice: CameraDevice.rear);
+    final picked = await picker.pickImage(
+      source: ImageSource.camera,
+      preferredCameraDevice: CameraDevice.rear,
+    );
     if (picked == null) return;
 
     final file = File(picked.path);
-    // Save file locally (copy to app dir to keep)
     final savedItem = await StorageService.saveImageFile(file);
 
-    // استخراج النص اوتوماتيكيا بعد الالتقاط
+    // استخراج النص تلقائياً
     final text = await ocr.extractTextFromFile(savedItem.path);
     final number = ocr.extractFirstNumber(text);
 
@@ -77,15 +81,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _onExtract(ImageItem item) async {
-    // run OCR for specific item
     final text = await ocr.extractTextFromFile(item.path);
     final number = ocr.extractFirstNumber(text);
+
     final newItem = ImageItem.fromMap(item.toMap());
     newItem.extractedText = text;
     newItem.extractedNumber = number;
     await StorageService.updateImage(newItem);
+
     await _loadImages();
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('اكتمل استخراج النص/الرقم')));
+
+    // تأكد أن الـ Widget ما زال موجود
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('اكتمل استخراج النص/الرقم')),
+    );
   }
 
   Future<void> _onUpdate(ImageItem item) async {
@@ -98,6 +108,14 @@ class _HomePageState extends State<HomePage> {
     await _loadImages();
   }
 
+  Future<void> _copyToClipboard(String text) async {
+    if (!mounted) return;
+    await Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('تم نسخ الرقم')),
+    );
+  }
+
   @override
   void dispose() {
     ocr.dispose();
@@ -106,15 +124,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // bottom black bold text
-    final bottomText = 'تصميم التطبيق بواسطة على التواصل 77';
+    const bottomText = 'تصميم التطبيق بواسطة على التواصل 77';
+
     return Scaffold(
       appBar: AppBar(title: const Text('معرض الصور - استخراج الأرقام')),
       body: Column(
         children: [
           Expanded(
             child: images.isEmpty
-                ? const Center(child: Text('لا توجد صور بعد. اضغط زر الكاميرا لالتقاط صورة.'))
+                ? const Center(
+                    child: Text('لا توجد صور بعد. اضغط زر الكاميرا لالتقاط صورة.'),
+                  )
                 : ListView.builder(
                     itemCount: images.length,
                     itemBuilder: (context, idx) {
@@ -132,10 +152,14 @@ class _HomePageState extends State<HomePage> {
             width: double.infinity,
             color: Colors.transparent,
             padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Text(
+            child: const Text(
               bottomText,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.w900, color: Colors.black, fontSize: 16),
+              style: TextStyle(
+                fontWeight: FontWeight.w900,
+                color: Colors.black,
+                fontSize: 16,
+              ),
             ),
           ),
         ],
