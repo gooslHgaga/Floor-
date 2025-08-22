@@ -1,5 +1,5 @@
-name: adan
-description: تطبيق أوقات الأذان
+name: photo
+description: تطبيق التقاط الصور واستخراج الأرقام
 publish_to: "none"
 version: 1.0.0+1
 
@@ -9,19 +9,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # لإدارة الحالة
   provider: ^6.1.5
-  adhan_dart: ^1.1.2
+  image_picker: ^0.8.7+6
+  google_mlkit_text_recognition: ^0.15.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  path_provider: ^2.0.14
+  permission_handler: ^10.4.0
   intl: ^0.18.1
-  hijri: ^3.0.0
-  flutter_local_notifications: ^18.0.1
-  file_picker: ^10.3.1
-  audioplayers: ^6.5.0
-  flutter_analog_clock: ^1.0.3
-  google_fonts: ^6.2.1
-  geolocator: ^13.0.1
-  shared_preferences: ^2.3.2
-  flutter_native_timezone: ^2.0.0
-  timezone: ^0.9.4   # متوافق مع notifications
 
 dev_dependencies:
   flutter_test:
