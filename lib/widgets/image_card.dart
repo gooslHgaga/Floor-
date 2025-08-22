@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // لإصلاح Clipboard
 import 'package:intl/intl.dart';
 import '../models/image_item.dart';
 
@@ -14,12 +15,12 @@ class ImageCard extends StatelessWidget {
   final OnExtract onExtract;
 
   const ImageCard({
-    Key? key,
+    super.key,
     required this.item,
     required this.onUpdate,
     required this.onDelete,
     required this.onExtract,
-  }) : super(key: key);
+  });
 
   String arabicWeekday(DateTime dt) {
     const names = {
@@ -31,9 +32,6 @@ class ImageCard extends StatelessWidget {
       6: 'السبت',
       7: 'الأحد',
     };
-    // DateTime.weekday: Monday=1 ... Sunday=7
-    // user wanted example "يوم السبت" => use mapping accordingly
-    // but mapping here returns Arabic names; we'll return "يوم {name}"
     final name = names[dt.weekday] ?? '';
     return 'يوم $name';
   }
@@ -42,6 +40,7 @@ class ImageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final dt = item.capturedAt;
     final dateStr = DateFormat('yyyy-MM-dd – HH:mm').format(dt);
+
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: Padding(
@@ -49,44 +48,61 @@ class ImageCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image preview
+            // معاينة الصورة
             AspectRatio(
               aspectRatio: 16 / 9,
               child: Image.file(
                 File(item.path),
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => const Center(child: Icon(Icons.broken_image)),
+                errorBuilder: (_, __, ___) =>
+                    const Center(child: Icon(Icons.broken_image)),
               ),
             ),
             const SizedBox(height: 8),
-            // date + weekday arabic
-            Text('$dateStr — ${arabicWeekday(dt)}', style: const TextStyle(fontSize: 14)),
+            // التاريخ واليوم بالعربية
+            Text(
+              '$dateStr — ${arabicWeekday(dt)}',
+              style: const TextStyle(fontSize: 14),
+            ),
             const SizedBox(height: 8),
-            // extracted number + copy button
+            // الرقم المستخرج + زر النسخ والاستخراج
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(child: Text('الرقم: ${item.extractedNumber.isEmpty ? '-' : item.extractedNumber}')),
-                Row(children: [
-                  IconButton(
-                    tooltip: 'استخراج الرقم',
-                    onPressed: () => onExtract(item),
-                    icon: const Icon(Icons.find_in_page),
+                Expanded(
+                  child: Text(
+                    'الرقم: ${item.extractedNumber.isEmpty ? '-' : item.extractedNumber}',
                   ),
-                  IconButton(
-                    tooltip: 'نسخ الرقم',
-                    onPressed: item.extractedNumber.isEmpty
-                        ? null
-                        : () {
-                            Clipboard.setData(ClipboardData(text: item.extractedNumber));
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('تم نسخ الرقم')));
-                          },
-                    icon: const Icon(Icons.copy),
-                  ),
-                ])
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      tooltip: 'استخراج الرقم',
+                      onPressed: () => onExtract(item),
+                      icon: const Icon(Icons.find_in_page),
+                    ),
+                    IconButton(
+                      tooltip: 'نسخ الرقم',
+                      onPressed: item.extractedNumber.isEmpty
+                          ? null
+                          : () {
+                              Clipboard.setData(
+                                ClipboardData(text: item.extractedNumber),
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('تم نسخ الرقم'),
+                                ),
+                              );
+                            },
+                      icon: const Icon(Icons.copy),
+                    ),
+                  ],
+                ),
               ],
             ),
-            // three checkboxes
+            const SizedBox(height: 8),
+            // ثلاثة صناديق الاختيار
             Row(
               children: [
                 Expanded(
@@ -127,7 +143,8 @@ class ImageCard extends StatelessWidget {
                 ),
               ],
             ),
-            // actions: delete
+            const SizedBox(height: 8),
+            // زر الحذف مع تأكيد
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -139,10 +156,15 @@ class ImageCard extends StatelessWidget {
                       context: context,
                       builder: (_) => AlertDialog(
                         title: const Text('تأكيد الحذف'),
-                        content: const Text('هل أنت متأكد أنك تريد حذف هذه الصورة؟'),
+                        content: const Text(
+                            'هل أنت متأكد أنك تريد حذف هذه الصورة؟'),
                         actions: [
-                          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('إلغاء')),
-                          TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('حذف')),
+                          TextButton(
+                              onPressed: () => Navigator.pop(context, false),
+                              child: const Text('إلغاء')),
+                          TextButton(
+                              onPressed: () => Navigator.pop(context, true),
+                              child: const Text('حذف')),
                         ],
                       ),
                     );
