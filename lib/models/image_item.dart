@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class ImageItem {
   final String id; // uuid or timestamp string
   final String path; // local file path
