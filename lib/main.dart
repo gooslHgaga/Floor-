@@ -91,7 +91,6 @@ class _HomePageState extends State<HomePage> {
 
     await _loadImages();
 
-    // تأكد أن الـ Widget ما زال موجود
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('اكتمل استخراج النص/الرقم')),
@@ -109,8 +108,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _copyToClipboard(String text) async {
-    if (!mounted) return;
     await Clipboard.setData(ClipboardData(text: text));
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('تم نسخ الرقم')),
     );
@@ -144,6 +143,7 @@ class _HomePageState extends State<HomePage> {
                         onExtract: _onExtract,
                         onUpdate: _onUpdate,
                         onDelete: _onDelete,
+                        onCopy: _copyToClipboard, // ✅ إضافة النسخ للـ ImageCard
                       );
                     },
                   ),
