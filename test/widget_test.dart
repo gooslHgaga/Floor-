@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:photo/main.dart'; // غيّر اسم الباكج حسب مشروعك
 
-void main() async {
-  // تهيئة Hive قبل أي اختبار
-  await Hive.initFlutter();
-  // فتح Box وهمي لاختبارات الويدجت
-  await Hive.openBox('imagesBox'); // استبدل 'imagesBox' باسم الـ Box الفعلي لديك
+void main() {
+  // تهيئة اختبار ويدجت
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() async {
+    // تهيئة Hive قبل أي اختبار
+    await Hive.initFlutter();
+    // فتح Box وهمي لاختبارات الويدجت
+    await Hive.openBox('imagesBox'); // استبدل 'imagesBox' باسم الـ Box الفعلي لديك
+  });
 
   testWidgets('App starts and shows home screen', (WidgetTester tester) async {
     // تشغيل التطبيق
