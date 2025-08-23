@@ -11,7 +11,7 @@ class StorageService {
   /// تهيئة Hive وفتح الـ Box
   static Future<void> init() async {
     await Hive.initFlutter();
-    await Hive.openBox<Map>(boxName);
+    await Hive.openBox(boxName);
   }
 
   /// حفظ الصورة في مجلد التطبيق وإنشاء ImageItem جديد
@@ -29,19 +29,19 @@ class StorageService {
       capturedAt: DateTime.now(),
     );
 
-    final box = Hive.box<Map>(boxName);
+    final box = Hive.box(boxName);
     await box.put(item.id, item.toMap());
     return item;
   }
 
   /// تحميل كل الصور من Hive وترتيبها حسب الأحدث أولاً
   static List<ImageItem> loadAllImages() {
-    final box = Hive.box<Map>(boxName);
+    final box = Hive.box(boxName);
     final List<ImageItem> list = [];
     for (var key in box.keys) {
       final map = box.get(key);
-      if (map != null && map is Map<String, dynamic>) {
-        list.add(ImageItem.fromMap(map));
+      if (map != null && map is Map) {
+        list.add(ImageItem.fromMap(Map<String, dynamic>.from(map)));
       }
     }
     list.sort((a, b) => b.capturedAt.compareTo(a.capturedAt));
@@ -50,7 +50,7 @@ class StorageService {
 
   /// تحديث بيانات صورة موجودة
   static Future<void> updateImage(ImageItem item) async {
-    final box = Hive.box<Map>(boxName);
+    final box = Hive.box(boxName);
     await box.put(item.id, item.toMap());
   }
 
@@ -58,11 +58,13 @@ class StorageService {
   static Future<void> deleteImage(ImageItem item) async {
     try {
       final file = File(item.path);
-      if (await file.exists()) await file.delete();
+      if (await file.exists()) {
+        await file.delete();
+      }
     } catch (e) {
-      // يمكن تسجيل الخطأ إذا أحببت
+      // ممكن تطبع الخطأ أو تتجاهله
     }
-    final box = Hive.box<Map>(boxName);
+    final box = Hive.box(boxName);
     await box.delete(item.id);
   }
 }
