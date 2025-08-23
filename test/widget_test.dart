@@ -1,27 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:photo/main.dart'; // غيّر اسم الباكج حسب مشروعك
-
-// Fake PathProvider لتجنب MissingPluginException أثناء الاختبارات
-class FakePathProviderPlatform extends PathProviderPlatform {
-  @override
-  Future<String?> getApplicationDocumentsPath() async {
-    return '.'; // مسار وهمي
-  }
-}
 
 void main() {
   // تهيئة اختبار ويدجت
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() async {
-    // تعيين Fake PathProvider
-    PathProviderPlatform.instance = FakePathProviderPlatform();
-
     // تهيئة Hive قبل أي اختبار
     await Hive.initFlutter('.');
+    // فتح Box وهمي لاختبارات الويدجت
     await Hive.openBox('imagesBox'); // استبدل 'imagesBox' باسم الـ Box الفعلي لديك
   });
 
