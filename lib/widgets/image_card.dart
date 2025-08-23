@@ -7,12 +7,14 @@ import '../models/image_item.dart';
 typedef OnUpdate = void Function(ImageItem item);
 typedef OnDelete = void Function(ImageItem item);
 typedef OnExtract = void Function(ImageItem item);
+typedef OnCopy = void Function(String text); // ✅ إضافة onCopy
 
 class ImageCard extends StatelessWidget {
   final ImageItem item;
   final OnUpdate onUpdate;
   final OnDelete onDelete;
   final OnExtract onExtract;
+  final OnCopy? onCopy; // اختياري
 
   const ImageCard({
     super.key,
@@ -20,6 +22,7 @@ class ImageCard extends StatelessWidget {
     required this.onUpdate,
     required this.onDelete,
     required this.onExtract,
+    this.onCopy,
   });
 
   String arabicWeekday(DateTime dt) {
@@ -86,14 +89,18 @@ class ImageCard extends StatelessWidget {
                       onPressed: item.extractedNumber.isEmpty
                           ? null
                           : () {
-                              Clipboard.setData(
-                                ClipboardData(text: item.extractedNumber),
-                              );
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('تم نسخ الرقم'),
-                                ),
-                              );
+                              if (onCopy != null) {
+                                onCopy!(item.extractedNumber);
+                              } else {
+                                Clipboard.setData(
+                                  ClipboardData(text: item.extractedNumber),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('تم نسخ الرقم'),
+                                  ),
+                                );
+                              }
                             },
                       icon: const Icon(Icons.copy),
                     ),
