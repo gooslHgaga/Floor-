@@ -143,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                         onExtract: _onExtract,
                         onUpdate: _onUpdate,
                         onDelete: _onDelete,
-                        onCopy: _copyToClipboard, // ✅ إضافة النسخ للـ ImageCard
+                        onCopy: _copyToClipboard, // ✅ إضافة دعم النسخ
                       );
                     },
                   ),
