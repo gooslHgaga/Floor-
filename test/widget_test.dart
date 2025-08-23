@@ -1,30 +1,30 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:myapp/main.dart';
+import 'package:photo/main.dart'; // غيّر اسم الباكج حسب مشروعك
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('App starts and shows home screen', (WidgetTester tester) async {
+    // تشغيل التطبيق
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // التأكد أن أول شاشة ظهرت تحتوي على نص أو ويدجت معين
+    expect(find.byType(MaterialApp), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // مثال: لو عندك AppBar فيه عنوان
+    expect(find.text('MyApp'), findsOneWidget);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  testWidgets('Navigate to next screen works', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    // البحث عن زر أو أيقونة للتنقل
+    final Finder button = find.byType(ElevatedButton);
+
+    // الضغط على الزر
+    await tester.tap(button);
+    await tester.pumpAndSettle(); // مهم لحل مشكلة async gaps
+
+    // التحقق من ظهور الشاشة التالية
+    expect(find.text('Next Screen'), findsOneWidget);
   });
 }
