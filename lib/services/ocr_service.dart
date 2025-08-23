@@ -1,9 +1,9 @@
-import 'dart:io';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
 class OcrService {
   final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
 
+  /// استخراج النص الكامل من الصورة
   Future<String> extractTextFromFile(String imagePath) async {
     final inputImage = InputImage.fromFilePath(imagePath);
     final result = await textRecognizer.processImage(inputImage);
@@ -20,13 +20,13 @@ class OcrService {
     final regex = RegExp(r'[\d٠-٩]+', unicode: true);
     final match = regex.firstMatch(text);
     if (match != null) {
-      // قد تكون الأرقام عربية (٠١٢) — سنحوّل العربية إلى إنجليزية إن لزم
       final raw = match.group(0) ?? '';
       return _convertArabicDigitsToWestern(raw);
     }
     return '';
   }
 
+  /// تحويل الأرقام العربية إلى أرقام غربية
   String _convertArabicDigitsToWestern(String input) {
     const arabic = '٠١٢٣٤٥٦٧٨٩';
     const western = '0123456789';
@@ -37,6 +37,7 @@ class OcrService {
     return out;
   }
 
+  /// إغلاق الـ TextRecognizer لتفادي استهلاك الذاكرة
   void dispose() {
     textRecognizer.close();
   }
