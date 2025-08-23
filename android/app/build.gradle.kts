@@ -7,8 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.photo"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    compileSdk = 34   // تأكد من أن compileSdk حديث (مثلاً 34)
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -20,21 +19,26 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.photo"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        minSdk = 21               // مهم لحل مشكلة ML Kit
+        targetSdk = 34            // استخدم آخر Target SDK
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
+
+            // حل مشكلة R8 عبر تعطيل التصغير أو استخدام قواعد مخصصة
+            minifyEnabled = false
+            shrinkResources = false
+
+            // إذا أردت إبقاء التصغير مفعّل أضف ملف proguard-rules.pro
+            // proguardFiles(
+            //     getDefaultProguardFile("proguard-android-optimize.txt"),
+            //     "proguard-rules.pro"
+            // )
         }
     }
 }
